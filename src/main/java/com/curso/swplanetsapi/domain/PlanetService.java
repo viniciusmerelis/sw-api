@@ -19,4 +19,8 @@ public class PlanetService {
     public Optional<Planet> get(Long id) {
         return repository.findById(id);
     }
+
+    public Optional<Planet> getByName(String name) {
+        return repository.findByName(name);
+    }
 }

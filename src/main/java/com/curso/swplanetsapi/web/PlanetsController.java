@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -28,6 +29,12 @@ public class PlanetsController {
     @GetMapping("/{id}")
     public ResponseEntity<Planet> get(@PathVariable Long id) {
         return service.get(id).map(planet -> ResponseEntity.ok(planet))
+             .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    public ResponseEntity<Planet> getByName(@RequestParam String name) {
+        return service.getByName(name).map(planet -> ResponseEntity.ok(planet))
              .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
