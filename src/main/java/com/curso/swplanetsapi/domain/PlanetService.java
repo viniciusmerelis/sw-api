@@ -1,7 +1,9 @@
 package com.curso.swplanetsapi.domain;
 
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,5 +24,10 @@ public class PlanetService {
 
     public Optional<Planet> getByName(String name) {
         return repository.findByName(name);
+    }
+
+    public List<Planet> list(String climate, String terrain) {
+        Example<Planet> query = QueryBuilder.makeQuery(new Planet(climate, terrain));
+        return repository.findAll(query);
     }
 }
