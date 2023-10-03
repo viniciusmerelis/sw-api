@@ -2,6 +2,7 @@ package com.curso.swplanetsapi.web;
 
 import com.curso.swplanetsapi.domain.Planet;
 import com.curso.swplanetsapi.domain.PlanetService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +19,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/planets")
-public class PlanetsController {
+public class PlanetController {
 
     @Autowired
     private PlanetService service;
 
     @PostMapping
-    public ResponseEntity<Planet> create(@RequestBody Planet planet) {
+    public ResponseEntity<Planet> create(@RequestBody @Valid Planet planet) {
         Planet planetCreated = service.create(planet);
         return ResponseEntity.status(HttpStatus.CREATED).body(planetCreated);
     }
@@ -35,8 +36,8 @@ public class PlanetsController {
              .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping
-    public ResponseEntity<Planet> getByName(@RequestParam String name) {
+    @GetMapping("/{name}")
+    public ResponseEntity<Planet> getByName(@PathVariable String name) {
         return service.getByName(name).map(planet -> ResponseEntity.ok(planet))
              .orElseGet(() -> ResponseEntity.notFound().build());
     }

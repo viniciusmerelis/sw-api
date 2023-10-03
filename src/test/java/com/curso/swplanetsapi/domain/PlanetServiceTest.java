@@ -7,7 +7,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Example;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -74,7 +73,7 @@ public class PlanetServiceTest {
 
     @Test
     public void listPlanets_ReturnsAllPlanets() {
-        List<Planet> planets = new ArrayList<>(){{add(PLANET);}};
+        List<Planet> planets = List.of(PLANET);
         Example<Planet> query = QueryBuilder.makeQuery(new Planet(PLANET.getClimate(), PLANET.getTerrain()));
         when(repository.findAll(query)).thenReturn(planets);
         List<Planet> sut = service.list(PLANET.getClimate(), PLANET.getTerrain());
